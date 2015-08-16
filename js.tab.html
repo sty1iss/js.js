@@ -1,0 +1,213 @@
+<!doctype html>
+<html>
+	<head>
+		<link rel="stylesheet" href='../html.html/default.css'>
+		<!--[if lt IE 9]><script src="//cdn.jsdelivr.net/html5shiv/latest/html5shiv.js"></script><![endif]-->
+		<script src="load.js" dev>
+			'use tab';
+		</script>
+		<style>
+			body {
+				margin:1em;
+			}
+			
+						
+.rooms {
+width:1000px;	
+	margin:0 auto;
+	position:relative;
+	height:370px;	
+}
+
+.rooms .room {
+	position:absolute;
+	top:0;
+	width:320px;
+	height:370px;
+	background-color:#cc9;
+	color:#1d1919;
+	padding-bottom:200px;
+	border-radius:5px;
+	overflow:hidden;
+}
+
+.rooms figure {
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:200px;
+}
+
+.rooms figure img {
+	width:100%;
+	height:auto;
+}
+
+.rooms .room .name {
+	font:bold 2em tahoma;
+	line-height:90%;
+}
+
+.rooms .room .price {
+	color:#900;
+	font-size:1em;
+}
+
+.rooms .tabButtons .page{
+	display:none;
+}
+
+.rooms .room {
+	transition:left 1s, opacity 1s;
+	z-index:8;
+}
+
+.rooms .order0 {
+	left:-680px;
+	opacity:0;
+}
+
+.rooms .order1 {
+	left:-340px;
+	opacity:0.1;
+	z-index:7;
+}
+
+.rooms .order2 {
+	left:0;
+}
+
+.rooms .order3 {
+	left:340px;
+}
+
+.rooms .order4 {
+	left:680px;
+}
+
+.rooms .order5 {
+	left:1020px;
+	opacity:0.1;
+}
+
+.rooms .order6 {
+	left:1360px;
+	opacity:0;
+}
+
+		</style>
+	</head>
+</head>
+<body>
+	<article>
+		<div class="rooms" tab-target=".room" tab-method="order" tab-timer="1">		
+			<dl class="room n1">
+				<dt class="type">분류</dt>
+				<dd class="type">{:type_text:}</dd>
+				<dt class="name">이름</dt>
+				<dd class="name">{:name:}1</dd>
+				<dt class="price">금액</dt>
+				<dd class="price">{:off_weekdays:}원</dd>
+			</dl>
+
+			<dl class="room n2">
+				<dt class="type">분류</dt>
+				<dd class="type">{:type_text:}</dd>
+				<dt class="name">이름</dt>
+				<dd class="name">{:name:}2</dd>
+				<dt class="price">금액</dt>
+				<dd class="price">{:off_weekdays:}원</dd>
+			</dl>
+									
+			<dl class="room n3">
+				<dt class="type">분류</dt>
+				<dd class="type">{:type_text:}</dd>
+				<dt class="name">이름</dt>
+				<dd class="name">{:name:}3</dd>
+				<dt class="price">금액</dt>
+				<dd class="price">{:off_weekdays:}원</dd>
+			</dl>
+			
+			<dl class="room n4">
+				<dt class="type">분류</dt>
+				<dd class="type">{:type_text:}</dd>
+				<dt class="name">이름</dt>
+				<dd class="name">{:name:}4</dd>
+				<dt class="price">금액</dt>
+				<dd class="price">{:off_weekdays:}원</dd>
+			</dl>
+
+			<dl class="room n5">
+				<dt class="type">분류</dt>
+				<dd class="type">{:type_text:}</dd>
+				<dt class="name">이름</dt>
+				<dd class="name">{:name:}5</dd>
+				<dt class="price">금액</dt>
+				<dd class="price">{:off_weekdays:}원</dd>
+			</dl>
+									
+			<dl class="room n6">
+				<dt class="type">분류</dt>
+				<dd class="type">{:type_text:}</dd>
+				<dt class="name">이름</dt>
+				<dd class="name">{:name:}6</dd>
+				<dt class="price">금액</dt>
+				<dd class="price">{:off_weekdays:}원</dd>
+			</dl>
+		</div>
+		<div class="tabNormal" tab-target="div" tab-button="h3" tab-index="1">
+			<div>
+				<h3>tab1</h3>
+				tab content1
+			</div>
+			
+			<div>
+				<h3>tab2</h3>
+				tab content2
+			</div>
+			
+			<div>
+				<h3>tab3</h3>
+				tab content3
+			</div>
+		</div>
+
+		<div class="tabThumb" js="tab" tab-target="figure" tab-button="img">
+			<figure>
+				<img src="../html.html/images/1.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/2.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/3.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/4.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/5.jpg">
+			</figure>			
+		</div>
+		
+		<div class="tabDot tabMyDot" tab-target="figure">
+			<figure>
+				<img src="../html.html/images/1.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/2.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/3.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/4.jpg">
+			</figure>
+			<figure>
+				<img src="../html.html/images/5.jpg">
+			</figure>			
+		</div>	
+	</article>
+</body>
+</html>

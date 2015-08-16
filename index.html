@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>js.js</title>
+		<link rel="stylesheet" href="../html.html/layout.css">
+		<style>
+			body {
+				margin:1em;
+			}
+		</style>
+		<script src="./js.js"></script>
+		<script>
+			js.use('calendar', function(){
+				//js.calendar();
+				
+				js(function(){
+					js('#print').calendar({
+						input: '#test'
+					});
+				});
+			});
+		</script>
+		
+		<style>
+			#print {
+				width:200px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>js.js</h1>
+		<ul id="fixed">
+		<li>이 저작물은 크리에이티브 커먼즈 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">저작자표시-비영리-동일조건변경허락 4.0</a> 국제 라이선스에 따라 이용할 수 있습니다.</li>
+		<li>This work is licensed under a Creative Commons <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Attribution-NonCommercial-ShareAlike 4.0</a> International License</li>
+		</ul>
+		
+		<input type="date" id="test" value="2015-08-15">
+		<div id="print"></div>
+	</body>
+</html>

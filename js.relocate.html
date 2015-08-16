@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<script src="load.js" dev>
+			'use relocate';
+		</script>
+		<script>
+			js(function(){
+				js('.galleria').relocate();
+			});
+		</script>
+		<link rel="stylesheet" href="../html.html/default.css">
+		<style>
+			ul {
+				width:1000px;
+				margin:0 auto;
+				background-color:#f0f0f0;
+			}
+			ul li {
+				box-sizing:border-box;
+				text-align:left;
+				display:block;
+				width:200px;
+				float:left;
+				border:solid 1px black;
+				overflow:hidden;
+				
+				transition:left 0.5s, top 0.5s;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<ul class="galleria">
+			<?for($i=0; $i<20; $i++){?>
+				
+				<li >
+					<div style="height:<?=rand(60, 300)?>px;">
+					<?=$i?>
+					</div>
+				</li>
+			
+			<?}?>
+		</ul>
+	</body>
+</html>
