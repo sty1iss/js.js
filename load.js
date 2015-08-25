@@ -7,7 +7,7 @@ window.js = (function(undefined){
 	
 	js.headNode = document.getElementsByTagName('head')[0] ||
 		document.getElementsByTagName('*')[0];
-				
+	
 	js.require = function(src, callback){
 		var node = document.createElement('script');
 		if(callback)
@@ -41,9 +41,15 @@ window.js = (function(undefined){
 			break;
 		}
 		
-		var dir = src.replace(_dir_, '')
-		  , dev = script.getAttribute('dev') !== null
-		  , cache = dev ?
+		this.minified = src.indexOf('min')>-1 || script.getAttribute('min') !== null;
+		this.dir = src.replace(_dir_, ''); 
+		this.dev = script.getAttribute('dev') !== null;
+		this.prefix = '';
+		this.suffix = '';
+		this.onload = script.onload;
+		script.onload = null;
+		
+		var cache = this.dev ?
 		  		(src.indexOf('?')<0 ? '?' : '&')+'dev='+(new Date).getTime() :
 		  		''
 		  , use = (script.innerHTML || '').match(_use_) || []
@@ -53,15 +59,7 @@ window.js = (function(undefined){
 				js.include(that.dir+src+cache, callback);
 			}
 			;
-		
-		this.dir = dir;
-		this.src = src;
-		this.dev = dev;		
-		this.prefix = '';
-		this.suffix = '';
-		this.onload = script.onload;
-		script.onload = null;
-		
+			
 		loading && loading.call(this, add);
 		
 		while(++i<c)
@@ -92,7 +90,11 @@ new js.package(function(add){
 	Array.isArray ||
 		add('polyfill/1.8.5.js');
 
-	add('js.js', this.onload);
+	add(this.minified ?
+			'js.min.js' :
+			'js.js'
+	  , this.onload
+	);
 	
 	('jQuery' in window) &&
 		add('polyfill/jquery.js');

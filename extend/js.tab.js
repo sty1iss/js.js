@@ -57,7 +57,10 @@ js.add.tab = (function(undefined){
 		}else if(option['tab-method']=='order'){
 			option['tab-order'] = 1;
 		}
+		
 		option['tab-method'] = bridge.method[option['tab-method']];
+		
+		//this.css('overflow-y', 'visible');
 		
 		var id = node.id || 'tab'+_index
 		  , length = contents.length
@@ -86,7 +89,6 @@ js.add.tab = (function(undefined){
 			index = 0;
 		else if(index>=length)
 			index = length-1; 
-		
 		
 		var buttons = this.add('<ul.tabs.'+buttonPrefix+'>');
 		buttons[0]._jsTab_ = {
@@ -129,7 +131,7 @@ js.add.tab = (function(undefined){
 			page = i+1;
 			content = contents[i];
 
-			option['tab-method'].set(content);
+			option['tab-method'].set(content, i);
 			
 			if(option['tab-button']){
 				
@@ -183,11 +185,13 @@ js.add.tab = (function(undefined){
 		_.parent._jsTab_.index = _.index;
 		
 		option['tab-method'].show(parent, prev, next);
+		prev._jsTab_.button.parentJs().stylex('here');
+		next._jsTab_.button.parentJs().style('here');
 		
 		if(option['tab-image']){
 			var target = js(option['tab-image'][0], next).hide();
 			option['tab-image'][1]
-				.css('background-image', 'url('+target.attr('src')+')')
+				.css('background-image', 'url('+target.attr('src')+')');
 		}
 			
 		return false;
@@ -250,22 +254,19 @@ js.add.tab.method.slide = {
 	init: function(){
 		
 	}
-  , set: function(content){
-		content.style.display = 'none';
+  , set: function(content, i){
+  		content.style.display = 'none';
 	}
 	
   , show: function(wrap, prev, next){
 		prev.style.display = 'none';
-		prev._jsTab_.button.parentJs().stylex('here');
-		
 		next.style.display = 'block';
-		next._jsTab_.button.parentJs().style('here');
   	}
-}
+};
 
 js.add.tab.method.order = {
 	init: function(wrap){
-		var order = wrap.option['tab-order']+2
+		var order = wrap.option['tab-order']+3
 		  , contents = wrap.contents
 		  , length = contents.length
 		  , i
@@ -316,4 +317,23 @@ js.add.tab.method.order = {
   			);
   		}
   }
-}
+};
+js.add.tab.method.classic = !(js.user.ie && js.user.ie<9) ?
+	js.add.tab.method.slide : {
+	init: function(wrap){
+	}
+	
+  , set: function(content, i){
+  		if(i) content.style.display = 'none';
+	}
+	
+  , show: function(wrap, prev, next){
+		var target = wrap.contents[0];
+		target.alt = next.alt ?
+			next.alt : '';
+		target.style.filter = 'blendTrans(duration=1)';
+		target.filters.blendTrans.Apply();
+		target.src = next.src;
+		target.filters.blendTrans.Play();
+  	}
+};
