@@ -35,24 +35,40 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 		return this;
 	};
 
-	Array.add.max = function() {
-		var i = this.length - 1, value, result = this[i];
-		while(i-->0) {
+	Array.add.max = function(needIndex) {
+		var i = this.length-1
+		  , value
+		  , result = this[i]
+		  , index = i
+			;
+		while(i-->0){
 			value = this[i];
-			if(value > result)
+			if(value > result){
 				result = value;
+				index = i;
+			}
 		}
-		return result;
+		return needIndex ?
+			index :
+			result;
 	};
 
-	Array.add.min = function() {
-		var i = this.length - 1, value, result = this[i];
-		while(i-->0) {
+	Array.add.min = function(needIndex) {
+		var i = this.length-1
+		  , value
+		  , result = this[i]
+		  , index = i
+			;
+		while(i-->0){
 			value = this[i];
-			if(value < result)
+			if(value < result){
 				result = value;
+				index = i;
+			}
 		}
-		return result;
+		return needIndex ?
+			index :
+			result;
 	};
 
 	Array.add.sum = function() {
@@ -116,6 +132,10 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 			result[key] = now;
 		}
 		return result;
+	};
+	
+	Array.add.last = function(){
+		return this[this.length-1];
 	};
 
 	Boolean.test = function(target) {
@@ -381,7 +401,7 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 	Number.add.zerofill = function(){
 		alert('Number.add.zerofill was renamed to fill.');
 		return Number.add.fill.apply(this, arguments);		
-	}
+	};
 
 	Number.add.fill = function(length) {
 		return (Number.add.fill = (function(undefined) {
@@ -394,6 +414,15 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 			};
 		})()).apply(this, arguments);
 	};
+	
+	Number.add.toClass = function(prefix, max){
+		prefix = prefix || 'x';
+		for(var i=2, c=max||10, className=[];i<=c;i++){
+			if(this%i==0)
+				className.push(prefix+i);
+		}
+		return className.join(' ');
+	};	
 
 	Number.add.min = function(min) {
 		return this < min ? min : this;
@@ -1506,9 +1535,12 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 		if(charset)
 			node.charset = charset;
 		node.href = href;
-		//js.headNode.appendChild(node);
 		var link = js.headNode.getElementsByTagName('link')[0];
-		js.headNode.insertBefore(node, link);
+		if(link){
+			js.headNode.insertBefore(node, link);
+		}else{
+			js.headNode.appendChild(node);
+		}
 	};
 
 	js.height = function() {
@@ -1851,50 +1883,53 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 	js.add.css = function(property, value) {
 		return (js.add.css = (function(user, upper, undefined) {
 			var $noTouch = function(a) {
-				return a;
-			}, $compatible = {
-				opacity : function() {
-					return user.ie && user.ie < 9 ? user.ie == 8 ? {
-						hyphen : '-ms-filter',
-						set : function(value) {
-							value = Math.round(value * 100);
-							return 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + value + ')';
-						},
-						get : getIE
-					} : {
-						hyphen : 'filter',
-						set : function(value) {
-							value = Math.round(value * 100);
-							return 'alpha(opacity=' + value + ')';
-						},
-						get : getIE
-					} : null;
-
-					function getIE(value) {
-						value = value.replace(/.*opacity=(\d+).*/i, '$1');
-						return value !== '' ? Number(value) / 100 : 1;
+				return a;}
+			  , $compatible = {
+					opacity : function() {
+						return user.ie && user.ie < 9 ? user.ie == 8 ? {
+							hyphen : '-ms-filter',
+							set : function(value) {
+								value = Math.round(value * 100);
+								return 'progid:DXImageTransform.Microsoft.Alpha(Opacity=' + value + ')';
+							},
+							get : getIE
+						} : {
+							hyphen : 'filter',
+							set : function(value) {
+								value = Math.round(value * 100);
+								return 'alpha(opacity=' + value + ')';
+							},
+							get : getIE
+						} : null;
+					
+						function getIE(value) {
+							value = value.replace(/.*opacity=(\d+).*/i, '$1');
+							return value !== '' ? Number(value) / 100 : 1;
+						}
+					
 					}
-
+					// 익스플로러를 제외한 브라우저에서 색 값이 맨 앞에 나오는지 알 수 없다
+					/*
+					 , boxShadow: function(){
+					 return !user.ie ? {
+					 get: function(value){
+					 value = value.match(/(\w+\([^\)]+\)|[^\s]+)/g);
+					 value.splice(4, 0, value.shift());
+					 value[5] &&
+					 ((value[5].indexOf('set')<0 && value.splice(9, 0, value.splice(5, 1)[0])) ||
+					 value.splice(10, 0, value.splice(6, 1)[0]));
+					
+					 return value.join(' ');
+					 }
+					 } :
+					 null;
+					
+					 }
+					 */
 				}
-				// 익스플로러를 제외한 브라우저에서 색 값이 맨 앞에 나오는지 알 수 없다
-				/*
-				 , boxShadow: function(){
-				 return !user.ie ? {
-				 get: function(value){
-				 value = value.match(/(\w+\([^\)]+\)|[^\s]+)/g);
-				 value.splice(4, 0, value.shift());
-				 value[5] &&
-				 ((value[5].indexOf('set')<0 && value.splice(9, 0, value.splice(5, 1)[0])) ||
-				 value.splice(10, 0, value.splice(6, 1)[0]));
-
-				 return value.join(' ');
-				 }
-				 } :
-				 null;
-
-				 }
-				 */
-			};
+		  	  , _isUseLength = /(.*(width|height|size|top|bottom|left|bottom)|position(-[xy])?)$/i
+		  	  , _isEnterUnit = /(r?em|v[wh]|p[xt]|%)$/i;
+		  	;
 
 			return function(property, value) {
 				var compatible, computed = value === true;
@@ -1909,7 +1944,8 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 					for(var i = 0, c = arguments.length; i < c; i += 2) {
 						property = dual(arguments[i]);
 						value = arguments[i + 1];
-
+						if(_isUseLength.test(property.hyphen) && !_isEnterUnit.test(value))
+							value+= 'px';
 						compatible = isCompatible(property);
 						this.set(set, compatible ? [compatible.camel, compatible.set(value)] : [property.camel, value]);
 					}
@@ -2095,12 +2131,6 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 		})()).apply(this, arguments);
 	};
 
-	js.adds('width|height', function(key) {
-		js.add[key] = function(width) {
-			return this.size(key);
-		};
-	});
-
 	js.add.selected = function(value) {
 		return (js.add.selected = (function(undefined) {
 			return function(value) {
@@ -2238,6 +2268,84 @@ window.js = (function(origin, window, document, Array, Boolean, Date, Function, 
 
 		})(Object.toArray, RegExp.spaces)).apply(this, arguments);
 	};
+	
+	js.add.fullSize = (function(){
+		return function(target){
+			return this.get(get, [
+				target
+			  , ['scroll', target].camel()
+			  , {
+			  		'width': ['left', 'right']
+			  	  , 'height': ['top', 'bottom']
+			  	}[target]
+			]);
+		}
+		
+		function get(node, prop, scroll, dir){		
+			// scrollHeight will  be less than real height when using height of css at msie 6 & 7
+			return node[scroll]
+			  + size(this, 'border-'+dir[0]+'-width')
+			  + size(this, 'border-'+dir[1]+'-width')
+			  + size(this, 'margin-'+dir[0]) 
+			  + size(this, 'margin-'+dir[1])
+				;			
+		}
+		
+		function size(target, hyphen){
+			var result = target.css(hyphen);
+			return Number.unit(result) ?
+				parseInt(result) :
+				0;
+		}  	
+	})();
+	
+	js.adds('width|height', function(key) {
+		js.add[key] = function(width) {
+			return this.size(key);
+		};
+		
+		js.add[['full', key].camel()] = function(){
+			return this.fullSize(key);
+		}
+	});
+	
+
+	js.add.offset = (function(){
+		return function(outer){
+			return this.get(get, [outer]);
+		};
+		
+		function get(node, outer){
+			var rect = node.getBoundingClientRect()
+			  , html = document.documentElement
+			  , body = document.body
+			  , sTop = window.pageYOffset || html.scrollTop || body.scrollTop
+			  , sLeft = window.pageXOffset || html.scrollLeft || body.scrollLeft
+			  , cTop = html.clientTop || body.clientTop || 0
+			  , cLeft = html.clientLeft || body.clientLeft || 0
+			  , top = rect.top + sTop - cTop
+			  , left = rect.left + sLeft - cLeft
+				;
+			if(outer){
+				var mTop = this.css('margin-top')
+				  , mLeft = this.css('margin-left')
+					;
+					
+				if(mTop.lastIndexOf('%')==0)
+					mTop = this.parentNode.scrollWidth * (parseInt(mTop)*100);
+				if(mLeft.lastIndexOf('%')==0)
+					mLeft = this.parentNode.scrollHeight * (parseInt(mLeft)*100);
+				
+				
+				top -= parseInt(mTop);
+				left -= parseInt(mLeft);
+			}
+			return {
+				top: Math.round(top)
+			  , left: Math.round(left)
+			};
+		}
+	})();	
 
 	js.add.insert = function(type, html) {
 		return (js.add.insert = (function(undefined) {

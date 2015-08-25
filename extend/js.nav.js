@@ -5,7 +5,7 @@ js.add.nav = (function(mobile){
 	 */
 	var _parents = []
 	  , _outTimer
-	  , _outDelay = 350
+	  , _outDelay = 300
 	;
 	
 	js.ready(bridge, 'ul.nav');

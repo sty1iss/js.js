@@ -7,11 +7,16 @@ js.add.realign = (function(){
 		return this.set(set);
 	}
 	
-	function set(){
+	function set(node){
+		this
+			.css('max-width', 'inherit')
+			.css('max-height', 'inherit')
+			;
+
 		var image = new Image;
-		image.target = this;
+		image.target = node;
 		image.onload = align;
-		image.src = this.src;
+		image.src = node.src;
 		_images.push(image);
 	}
 	
@@ -28,7 +33,6 @@ js.add.realign = (function(){
 		  	  , height : parent.css('height').toInt()
 			}
 			;
-		
 		// resize
 		resize(node, 'width', p);
 		

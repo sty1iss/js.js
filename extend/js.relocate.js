@@ -1,27 +1,44 @@
+/*
+ * relocate by absolute position from floated elements for except spaces
+ * @version 0.5
+ */
 js.add.relocate = (function(){
 	var _parents = [];
 	
-	return function(){
-		return this.set(set);	
-	}
+	js.win().resize(reset);
 	
-	function set(node){
-		_parents.push(this);
-		var offset = this.offset();
-		var child = this.child();
+	return function(option){
+		option = Object.merge(option || {}, {
+			'relocate-trim': true
+		});
+		return this.set(set, [option]);	
+	};
+	
+	function set(node, option){
+		(_parents.indexOf(this)>-1 &&
+			this.js('.relocated').clear()) ||
+				_parents.push(this);
+				
+		var offset = this.offset()
+		  , child = this.child()
+			;
+			
 		node._jsRelocate_ = {
-			width: this.width()
+			option: option
+		  , width: this.width()
 		  , top: offset.top
 		  , left: offset.left
 		  , child: child
 		  , widths:[0]
 		  , heights: []
-		  , col : [0]		  
+		  , col : [0]
+		  , cols: []
 		};
+		
 		node.style.position = 'relative';
 		child.set(ready);
 		child.set(position);
-		this.css('height', node._jsRelocate_.heights.max()+'px');
+		trim(this, node);
 	}
 	
 	function reset(){
@@ -30,13 +47,12 @@ js.add.relocate = (function(){
 			__ = parent[0]._jsRelocate_;
 			width = parent.width();
 			if(__.width != width){
-				
 				__.widths[0] = 0;
 				__.col[0] = 0;
 				parent[0]._jsRelocate_.width = width;
 				parent[0]._jsRelocate_.heights = [];
 				__.child.set(position);
-				parent.css('height', __.heights.max()+'px');
+				trim(parent, parent[0]);
 			}
 		}
 	}
@@ -47,13 +63,19 @@ js.add.relocate = (function(){
 			;
 		node.style.top = offset.top-__.top+'px';
 		node.style.left = offset.left-__.left+'px';
-		node.style.transition = 'top 0.5s, left 0.5s';
+		node._jsRelocate_ = {
+			width: []
+		  , height:[this.fullHeight()]
+		  , left:[]
+		  , right:[]
+		};
 	}
 	
 	function position(node){
 		node.style.float = 'none';
 		node.style.position = 'absolute';
-		var parent = node.parentNode
+		var	_ = node._jsRelocate_
+		  , parent = node.parentNode
 		  , __ = parent._jsRelocate_
 		  , width = __.width
 		  , widths = __.widths
@@ -64,13 +86,22 @@ js.add.relocate = (function(){
 		if(!heights[col[0]])
 			heights[col[0]] = 0;
 		
-		this.css('top', heights[col[0]]+'px');
-		this.css('left', widths[0]+'px');
-
-		widths[0]+= this.fullSize('width');
+		_.width[0] = this.fullWidth();
 		
-		heights[col[0]]+= this.fullSize('height');
-				
+		if(widths[0]+_.width[0]>width){
+			widths[0] = 0;
+			col[0] = 0;
+		}
+			
+		if(!__.cols[col[0]])
+			__.cols[col[0]] = [];
+			
+		__.cols[col[0]].push(this);				
+
+		each(this, heights[col[0]], widths[0]);
+		widths[0]+= _.width[0];
+		heights[col[0]]+= _.height[0];
+
 		if(widths[0]>=width){
 			widths[0] = 0;
 			col[0] = 0;
@@ -78,105 +109,51 @@ js.add.relocate = (function(){
 			col[0]++;
 		}
 	}
-})();
-
-js.add.fullSize = (function(){
-	return function(target){
-		return this.get(get, [
-			target
-		  , ['scroll', target].camel()
-		  , {
-		  		'width': ['left', 'right']
-		  	  , 'height': ['top', 'bottom']
-		  	}[target]
-		]);
-	}
 	
-	function get(node, prop, scroll, dir){		
-		// scrollHeight will  be less than real height when using height of css at msie 6 & 7
-		return node[scroll]
-		  + size(this, 'border-'+dir[0]+'-width')
-		  + size(this, 'border-'+dir[1]+'-width')
-		  + size(this, 'margin-'+dir[0]) 
-		  + size(this, 'margin-'+dir[1])
-			;			
-	}
-	
-	function size(target, hyphen){
-		var result = target.css(hyphen);
-		return Number.unit(result) ?
-			parseInt(result) :
-			0;
-	}  	
-})();
-// change to offsetWidth
-js.add.fullWidth = (function(){
-	return function(){
-		return this.get(get);
-	};
-	
-	function get(node){
-		return node.scrollWidth
-		  + parseInt(size(this, 'border-left-width'))
-		  + parseInt(size(this, 'border-right-width') || 0)
-		  + parseInt(size(this, 'margin-left') || 0)
-		  + parseInt(size(this, 'margin-right') || 0)
-			;
-	};
-	
-
-})();
-
-js.add.fullHeight = (function(){
-	return function(){
-		return this.get(get);
-	};
-	
-	function get(node){
-		
-		return node.scrollHeight
-		  + parseInt(this.css('border-top-width'))
-		  + parseInt(this.css('border-bottom-width'))
-		  + parseInt(this.css('margin-top'))
-		  + parseInt(this.css('margin-bottom'))
-			;
-	};
-})();
-
-js.add.offset = (function(){
-	
-	return function(outer){
-		return this.get(get, [outer]);
-	};
-	
-	function get(node, outer){
-		var rect = node.getBoundingClientRect()
-		  , html = document.documentElement
-		  , body = document.body
-		  , sTop = window.pageYOffset || html.scrollTop || body.scrollTop
-		  , sLeft = window.pageXOffset || html.scrollLeft || body.scrollLeft
-		  , cTop = html.clientTop || body.clientTop || 0
-		  , cLeft = html.clientLeft || body.clientLeft || 0
-		  , top = rect.top + sTop - cTop
-		  , left = rect.left + sLeft - cLeft
-			;
-		if(outer){
-			var mTop = this.css('margin-top')
-			  , mLeft = this.css('margin-left')
-				;
+	function trim(dot, node){
+		var _ = node._jsRelocate_
+		  , v = _.heights.slice(0)
+		  , cols = _.cols.length-1
+		  , min
+		  , max
+		  , t
+		  , mCol
+		  , mLeft
+		  , height
+		  ;
+		if(_.option['relocate-trim']){
+			do {
+				min = v.min(true);
+				max = v.max(true);
+				t = _.cols[max].pop();
+				mCol = _.cols[min];
+				mLeft = min ?
+					_.cols[min-1].last()[0]._jsRelocate_.right[0] :
+					0;
 				
-			if(mTop.lastIndexOf('%')==0)
-				mTop = this.parentNode.scrollWidth * (parseInt(mTop)*100);
-			if(mLeft.lastIndexOf('%')==0)
-				mLeft = this.parentNode.scrollHeight * (parseInt(mLeft)*100);
-			
-			
-			top -= parseInt(mTop);
-			left -= parseInt(mLeft);
+				height = t[0]._jsRelocate_.height[0];
+				if(v[max] <= v[min]+height)
+					break;
+				_.cols[min].push(t);
+				each(t, v[min], mLeft);
+				v[max]-= height;
+				v[min]+= height;
+			}while(true);
+			_.heights = v;
 		}
-		return {
-			top: Math.round(top)
-		  , left: Math.round(left)
-		};
+		max = _.heights.max();
+		dot
+			.css('height', max)
+			.add('<div.relocated style="width:100%;height:'+max+'px"/>')
+			;
+	}
+	
+	function each(target, top, left){
+		var _ = target[0]._jsRelocate_;
+				
+		_.left[0] = left;
+		_.right[0] = left + _.width[0];
+		
+		target.css('top', top, 'left', left);
 	}
 })();

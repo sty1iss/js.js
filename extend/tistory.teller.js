@@ -53,7 +53,7 @@ if(!teller)
 				document.forms.search.elements[0].value = decodeURIComponent(href.split('/search/')[1]);
 		}
 		
-		var icon = js('img[src*="new_ico"]')
+		var icon = js('img[src*="new_ico"]');
 		icon && icon.set(function(){
 			var parent = this.parentNode;
 			parent.className+= 'new';
@@ -152,7 +152,9 @@ if(!teller)
 			}
 		});
 		
-		nav.js('.menu > ul').subMenu();
+		js.use('nav', function(){
+			nav.js('.menu > ul').nav();	
+		});
 	}
 	
 	function removeCountWrap(){

@@ -570,7 +570,7 @@ js.forms.type.price = {
 
 js.forms.type.tel = {
 	regex: RegExp.tel
-};
+};
 
 js.forms.type.mobile = {
 	regex: /^01(0|1|3|5|6|7|8|9)\-\d{3,4}\-\d{4}$/
