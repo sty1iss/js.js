@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="../load.js" dev></script>
+		<script>
+		js(function(){
+			var colors = ['red', 'blue'];
+			js.body().click(click);
+			
+			return;
+			
+			function click(){
+				console.log('click');
+				if(!colors.length)
+					js.body().clickx(click);
+					
+				var color = colors.shift();
+				this.style.backgroundColor = color;
+			}
+		})
+		</script>
+	</head>
+	<body>
+		<div style="height:1000px">&nbsp;</div>
+	</body>
+</html>

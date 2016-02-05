@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="http://styliss.net/html.html/css.v2.css">
+		<link rel="stylesheet" href="http://styliss.net/html.html/css.layout.css">
+		<!--[if lt IE 9]><script src="//cdn.jsdelivr.net/html5shiv/latest/html5shiv.js"></script><![endif]-->
+		<script src="../load.js" dev>
+			'use nav';
+		</script>
+		<script>
+			function templet() {
+				document.write('<ul>'+js('#templet').html()+'</ul>');
+			}
+		</script>
+		<style>
+			body {
+				margin: 10px;
+			}
+
+			a {
+				color: black;
+			}
+
+			#templet {
+				display: none;
+			}
+			
+			.frame nav {
+				width:50%;
+				float:left;
+			}
+			
+			.nav-hor li {
+				margin-left:0.625em;
+			}
+			
+			hr {
+				display:block;
+			}
+		</style>
+		<script></script>
+	</head>
+	<body>
+		<ul id="templet">
+			<li>
+				<a href="#">menu 0</a>
+			</li>
+			<li>
+				<a href="#">menu 12</a>
+				<ul>
+					<li>
+						<a href="#">menu1-0</a>
+					</li>
+					<li>
+						<a href="#">menu1-1</a>
+						<ul>
+							<li>
+								<a href="#">menu1-1-1</a>
+							</li>
+							<li>
+								<a href="#">menu1-1-2</a>
+							</li>
+							<li>
+								<a href="#">menu1-1-3</a>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu1-2</a>
+						<ul>
+							<li>
+								<a href="#">menu1-2-1</a>
+							</li>
+							<li>
+								<a href="#">menu1-2-2</a>
+							</li>
+							<li>
+								<a href="#">menu1-2-3</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">menu2</a>
+				<ul>
+					<li>
+						<a href="#">menu2-1</a>
+					</li>
+					<li>
+						<a href="#">menu2-2</a>
+					</li>
+					<li>
+						<a href="#">menu2-3</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="#">menu3</a>
+				<ul>
+					<li>
+						<a href="#">menu3-1</a>
+					</li>
+					<li>
+						<a href="#">menu3-2</a>
+					</li>
+					<li>
+						<a href="#">menu3-3</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		</textarea>
+		<a href="#mainNav" id="navShortcut">directly go to menu</a>
+		<h1>js.nav.js</h1>
+		<h2>Note</h2>
+		<ul class="tips">
+			<li>
+				range can not be hoverable, if using top or margin-top to sub ul.
+			</li>
+		</ul>
+		<article>
+			<h3>Options</h3>
+			<table border="1">
+				<thead>
+					<tr>
+						<th>attribute name</th>
+						<th>value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>nav-target</th>
+						<td>select element</td>
+					</tr>
+					<tr>
+						<th>nav-like-tree</th>
+						<td>display like tree(folders)</td>
+					</tr>
+					
+					<tr>
+						<th>nav-fold</th>
+						<td>folding text like "Close"</td>
+					</tr>
+					
+					<tr>
+						<th>nav-unfold</th>
+						<td>unfolding text like "Open"</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<h3>Desktop Program</h3>
+			<div class="frame">
+			
+			<nav class="ready nav-hor">
+				<h4>Pure CSS</h4>
+				<script>
+					templet();
+				</script>
+			</nav>
+			
+			<nav class="ready nav-hor" nav-target>
+				<h4>Javascript</h4>
+				<script>
+					templet();
+				</script>
+			</nav>
+			
+			</div>
+			<hr>
+			<h3>Vertical Hoverable</h3>
+			<nav class="ready nav-ver" nav-target >
+				<script>
+					templet();
+				</script>
+			</nav>
+			<hr>
+			<h3>Tree</h3>
+			<nav class="ready nav-ver" nav-target nav-like-tree>
+				<script>
+					templet();
+				</script>
+			</nav>
+		</article>
+	</body>
+</html>

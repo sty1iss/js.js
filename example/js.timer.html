@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="./load.js"></script>
+		<script>
+			js.interval(function(remain){
+				console.log('test1');
+			}, '#test1', {update:'#test1'});
+			
+			js.interval(function(remain){
+				console.log('test2');
+			}, '#test2', {update:'#test2'});
+		</script>
+	</head>
+	<body>
+		<div id="test1">10</div>
+		<div id="test2">11</div>
+	</body>
+</html>

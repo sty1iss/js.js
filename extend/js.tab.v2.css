@@ -1,0 +1,283 @@
+.tabApplied {
+	position:relative;
+}
+
+.tabApplied .orderOff {
+	display:none;
+}
+
+/* defaultly hide */
+.tabs-i,
+.tab-near-i {
+	display:none;
+}
+
+/* near design */
+.tab-near-icon-i a,
+.tab-near-full-i a {
+	position:absolute;
+	display:block;
+	text-indent:100%;
+	overflow:hidden;
+	white-space:nowrap;
+	width:50%;
+	z-index:200;
+	background-repeat:no-repeat;
+}
+
+.tab-near-full-i a{
+	top:10%;
+	height:80%;
+}
+
+.tab-near-icon-i .prev,
+.tab-near-full-i .prev {
+	left:0;
+}
+
+.tab-near-icon-i .next,
+.tab-near-full-i .next {
+	right:0;
+}
+
+/* tabs design */
+.tabs-normal-i,
+.tabs-dot-i,
+.tabs-dot-bar-i,
+.tabs-bar-i,
+.tabs-img-i {
+	display:block;
+}
+
+.tabs-normal-i {
+	border-style:solid;
+	margin-bottom:1.25em;
+	border-width:0;
+}
+
+.tabs-normal-i a{
+	display:inline-block;
+	*display:inline;
+	border-style:solid;
+	border-width:1px;
+	border-bottom-color:black;
+	margin-right:-1px;
+	padding:0.625em 1.25em;
+}
+
+.tabs-dot-i,
+.tabs-dot-bar-i,
+.tabs-bar-i,
+.tabs-img-i {
+	z-index:500;
+	position:absolute;
+	left:0;
+	bottom:30px;
+	width:100%;
+	text-align:center;
+}
+
+.tabs-dot-i a,
+.tabs-dot-bar-i a,
+.tabs-bar-i a {
+	display:inline-block;
+	text-indent:100%;
+	white-space:nowrap;
+	overflow:hidden;
+	width:10px;
+	height:10px;
+	border-radius:5px;
+	opacity:0.3;
+	box-shadow:0 0 5px rgba(0, 0, 0, 0.5);
+	transition-property:opacity, width;
+	transition-duration:0.5s;	
+	margin: 0 5px;
+}
+
+.tabs-dot-i a:hover,
+.tabs-dot-i .here,
+.tabs-dot-bar-i a:hover,
+.tabs-dot-bar-i .here,
+.tabs-bar-i a:hover,
+.tabs-bar-i .here {
+	opacity:1;
+}
+
+.tabs-dot-bar-i .here,
+.tabs-bar-i a {
+	width:30px;
+}
+
+.tabs-img-i a {
+	display:inline-block;
+	text-indent:100%;
+	white-space:nowrap;
+	overflow:hidden;
+	background-repeat:no-repeat;
+}
+
+/* customize */
+.tabs-normal-i {
+	border-color:black;
+	border-bottom-width:1px;
+}
+
+.tabs-normal-i a {
+	color:#999;
+	border-color:#f0f0f0;
+	border-bottom-color:transparent;
+	margin-bottom:-1px;
+}
+
+.tabs-normal-i a:hover,
+.tabs-normal-i .here {
+	background-color:black;
+	color:white;
+}
+
+.tabs-dot-i a,
+.tabs-bar-i a {
+	background-color:white;
+	border:solid 1px white\9;
+	background-color:transparent\9;	
+}
+
+.tabs-dot-i a:hover,
+.tabs-dot-i .here,
+.tabs-bar-i a:hover,
+.tabs-bar-i .here {
+	background-color:white\9;
+}
+
+/* tab animation */
+.tab-show,
+.tab-hide {
+	position:absolute;
+}
+
+.tab-ani-fade .tab-hide {
+	animation-name: tab-fade-hide;
+}
+
+.tab-ani-fade .tab-show {
+	position:static;
+}
+
+.tab-ani-left .tab-hide {
+	animation-name: tab-left-hide;
+}
+
+.tab-ani-left .tab-show {
+	animation-name: tab-left-show;
+}
+
+.tab-ani-right .tab-hide {
+	animation-name: tab-right-hide;
+}
+
+.tab-ani-right .tab-show {
+	animation-name: tab-right-show;
+}
+
+.tab-ani-top .tab-hide{
+	animation-name: tab-top-hide;
+}
+
+.tab-ani-top .tab-show {
+	animation-name: tab-top-show;
+}
+
+.tab-ani-bottom .tab-hide{
+	animation-name: tab-bottom-hide;
+}
+
+.tab-ani-bottom .tab-show {
+	animation-name: tab-bottom-show;
+}
+
+.tab-ani-flip .tab-hide {
+	animation-name: tab-flip-hide;
+}
+
+.tab-ani-flip .tab-show {
+	animation-name: tab-flip-show;
+}
+
+.tab-ani-zoom .tab-hide {
+	animation-name: tab-zoom-hide;
+}
+
+.tab-ani-zoom .tab-show {
+	animation-name: tab-zoom-show;
+}
+
+
+@keyframes tab-fade-hide {
+	to {
+		opacity:0;
+	}
+}
+
+@keyframes tab-left-show {
+	from {
+		transform:translateX(100%);
+	}
+}
+
+@keyframes tab-left-hide {
+	to {
+		transform:translateX(-100%);
+	}
+}
+
+@keyframes tab-right-show {
+	from {
+		transform:translateX(-100%);
+	}
+}
+
+@keyframes tab-right-hide {
+	to {
+		transform:translateX(100%);
+	}
+}
+
+@keyframes tab-flip-hide {
+	50%, 100% {
+		transform:rotateX180deg);
+		opacity:0;
+	}
+}
+
+@keyframes tab-flip-show {
+	0% {
+		transform:rotateX(180deg);
+		opacity:0;
+	}
+	
+	50%, 100% {
+		opacity:1;
+		transform:rotateX(0deg);
+	}
+}
+
+@keyframes tab-flip-hide {
+	50%, 100% {
+		transform:rotateX180deg);
+		opacity:0;
+	}
+}
+
+@keyframes tab-zoom-show {
+	from {
+		transform:scale(0);
+	}
+}
+
+@keyframes tab-zoom-hide {
+	to {
+		transform:scale(0);
+		opacity:0;
+	}
+}
+

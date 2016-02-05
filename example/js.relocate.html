@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<script src="../load.js">
+			'use relocate';
+		</script>
+		<script>
+			js(function(){
+				var target = js('.galleria')
+				
+				
+				target.relocate();
+				
+				setTimeout(function(){
+					target.appended('<li><div style="height:'+Math.rand(100, 300)+'px"></div></li>');
+				}, 1000);
+				
+				setTimeout(function(){
+					target.appended('<li><div style="height:'+Math.rand(100, 300)+'px"></div></li>');
+				}, 2000);
+				
+				setTimeout(function(){
+					target.appended('<li><div style="height:'+Math.rand(100, 300)+'"></div></li>');
+				}, 3000);
+				
+				setTimeout(function(){
+					target.relocate();
+				}, 4000);
+			});
+		</script>
+		<link rel="stylesheet" href="../html.html/default.css">
+		<style>
+			ul {
+				width:1000px;
+				margin:0 auto;
+				background-color:#f0f0f0;
+			}
+			ul li {
+				text-align:left;
+				display:block;
+				width:200px;
+				float:left;
+				background-color:#999;
+				opacity:0.7;
+				overflow:hidden;
+				
+				transition:left 0.5s, top 0.5s;
+				overflow:hidden;
+			}
+			
+			ul li div{
+				width:99%;
+				height:99%;
+				margin:0.5%;
+				background-color:white;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<ul class="galleria">
+			<?for($i=0; $i<30; $i++){?>
+				
+				<li >
+					<div style="height:<?=rand(100, 400-($i*30)+100)?>px;">
+					<?=$i?>
+					</div>
+				</li>
+			
+			<?}?>
+		</ul>
+	</body>
+</html>
